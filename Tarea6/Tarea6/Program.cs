@@ -10,8 +10,10 @@ namespace Tarea6
     {
         static void Main(string[] args)
         {
-            System.IO.DirectoryInfo rootDir = new System.IO.DirectoryInfo("C:/Users/echavez/Desktop");
+            System.IO.DirectoryInfo rootDir = new System.IO.DirectoryInfo("C:/Users/echavez/Pictures");
+            Console.WriteLine(rootDir.ToString());
             WalkDirectoryTree(rootDir);
+            
             Console.ReadKey();
         }
 
