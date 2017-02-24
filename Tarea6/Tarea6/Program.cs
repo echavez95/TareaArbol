@@ -4,28 +4,40 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Tarea6
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            DirectoryInfo rootDir = new  DirectoryInfo("C:/Prueba");
-            Console.WriteLine(rootDir.ToString());
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
 
-            Console.WriteLine("--------------- Preorder ---------------");
-            Console.WriteLine(rootDir.Name);
-            Preorder(rootDir);
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    DirectoryInfo rootDir = new DirectoryInfo(fbd.SelectedPath);
+                    Console.WriteLine(rootDir.ToString());
 
-            Console.WriteLine("--------------- Postorder --------------");
-            PostOrder(rootDir);
-            Console.WriteLine(rootDir.Name);
+                    Console.WriteLine("--------------- Preorder ---------------");
+                    Console.WriteLine(rootDir.Name);
+                    Preorder(rootDir);
 
-            Console.WriteLine("--------------- inOrder --------------");
-            InOrder(rootDir);
+                    Console.WriteLine("--------------- Postorder --------------");
+                    PostOrder(rootDir);
+                    Console.WriteLine(rootDir.Name);
 
-            Console.ReadKey();
+                    Console.WriteLine("--------------- inOrder --------------");
+                    InOrder(rootDir);
+
+                    Console.ReadKey();
+                }
+            }
+
+            
         }
 
         static void Preorder( DirectoryInfo root)
