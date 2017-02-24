@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,23 +11,79 @@ namespace Tarea6
     {
         static void Main(string[] args)
         {
-            System.IO.DirectoryInfo rootDir = new System.IO.DirectoryInfo("C:/Users/echavez/Pictures");
+            DirectoryInfo rootDir = new  DirectoryInfo("C:/Prueba");
             Console.WriteLine(rootDir.ToString());
-            WalkDirectoryTree(rootDir);
-            
+
+            Console.WriteLine("--------------- Preorder ---------------");
+            Console.WriteLine(rootDir.Name);
+            Preorder(rootDir);
+
+            Console.WriteLine("--------------- Postorder --------------");
+            PostOrder(rootDir);
+            Console.WriteLine(rootDir.Name);
+
+            Console.WriteLine("--------------- inOrder --------------");
+            InOrder(rootDir);
+
             Console.ReadKey();
         }
 
-        static void WalkDirectoryTree(System.IO.DirectoryInfo root)
+        static void Preorder( DirectoryInfo root)
         {
-            System.IO.DirectoryInfo[] subDirs = null;
-            subDirs = root.GetDirectories();
-            foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+            DirectoryInfo[] subDirs = root.GetDirectories();
+            
+            foreach ( DirectoryInfo dirInfo in subDirs)
             {
                 Console.WriteLine(dirInfo.Name);
                 // Resursive call for each subdirectory.
-                WalkDirectoryTree(dirInfo);
+                Preorder(dirInfo);
+            }
+
+        }
+
+        static void PostOrder( DirectoryInfo root)
+        {
+             DirectoryInfo[] subDirs = root.GetDirectories();
+            foreach ( DirectoryInfo dirInfo in subDirs)
+            {
+                // Resursive call for each subdirectory.
+                PostOrder(dirInfo);
+                Console.WriteLine(dirInfo.Name);
             }
         }
+
+        static void InOrder(DirectoryInfo root)
+        {
+            DirectoryInfo[] subDirs = root.GetDirectories();
+
+            if (subDirs.Length == 0)
+            {
+                return;
+            }
+
+            int mitad;
+            
+            if (subDirs.Length % 2 == 0)
+            {
+                mitad = subDirs.Length / 2;
+            }
+            else
+            {
+                mitad = Convert.ToInt32((subDirs.Length / 2) + 0.5);
+            }
+            
+            for(int i = 0; i < mitad; i++)
+            {
+                InOrder(subDirs[i]);
+                Console.WriteLine(subDirs[i].Name);
+            }
+            Console.WriteLine(root.Name);
+            for (int i = mitad; i < subDirs.Length; i++)
+            {
+                InOrder(subDirs[i]);
+                Console.WriteLine(subDirs[i].Name);
+            }
+        }
+
     }
 }
